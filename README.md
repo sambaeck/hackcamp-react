@@ -21,8 +21,8 @@ First off, you will need to clone the project:
 ```bash
 git clone url
 cd hackcamp.react
-npm install
-npm start
+yarn
+yarn start
 
 # Happy hacking ;)
 ```
