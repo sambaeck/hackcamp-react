@@ -10,8 +10,10 @@ import {FilterBar} from './components/FilterBar';
 export class App extends Component {
     state = {
         movies,
-        filters
+        filters,
+        sideBarOpened: false
     };
+
 
     selectTab = (category) => {
         // We need to update the `selected` property of the clicked category to be true.
@@ -20,6 +22,13 @@ export class App extends Component {
 
     openSideBar = () => {
         // We need to toggle the state of the sidebar here to make sure it is in an open state
+        console.log('toggle opensideBar');
+        this.setState({
+            sideBarOpened: !this.state.sideBarOpened
+        })
+        console.log(this.state.sideBarOpened);
+
+
     };
 
     render() {
@@ -29,10 +38,10 @@ export class App extends Component {
 
                 <main className="main-content">
 
-                   <FilterBar filters={this.state.filters} selectTab={this.selectTab}/>
+                    <FilterBar filters={this.state.filters} selectTab={this.selectTab}/>
 
                     {/*If the sidebar is open you need to add the css class filter-is-visible to the div below*/}
-                    <section className="gallery">
+                    <section className={`gallery ${this.state.sideBarOpened ? "filter-is-visible" : ""}`}>
                         {this.state.movies.map(movie =>
                             <Movie key={movie.id} data={movie}/>
                         )}
@@ -40,7 +49,7 @@ export class App extends Component {
 
                     <div>
                         {/*If the sidebar is open you need to add the css class filter-is-visible to the div below*/}
-                        <div className="filter">
+                        <div className={`filter ${this.state.sideBarOpened ? "filter-is-visible" : ""}`}>
                             <form onSubmit={e => e.preventDefault}>
                                 <div className="filter-block">
                                     <h4>Search</h4>
