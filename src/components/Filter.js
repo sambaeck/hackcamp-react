@@ -15,7 +15,7 @@ export class Filter extends React.Component {
 
     render() {
         return (
-            <li key={this.props.category} onClick={this.props.selectTab}>
+            <li key={this.props.category} onClick={() => this.props.selectTab(this.props.category)}>
                 <a className={this.props.selected ? 'selected' : ''}>
                     {this.props.category}
                 </a>

@@ -2,10 +2,12 @@ import React, {Component} from 'react';
 import logo from './images/logo.svg';
 import movies from './mocks/movies.json';
 import filters from './mocks/filters';
+import genres from './mocks/genres.json';
 import './css/Header.css';
 import {Movie} from './components/Movie';
 import {Header} from './components/Header';
 import {FilterBar} from './components/FilterBar';
+import {SideBar} from './components/SideBar';
 
 export class App extends Component {
     state = {
@@ -17,18 +19,47 @@ export class App extends Component {
 
     selectTab = (category) => {
         // We need to update the `selected` property of the clicked category to be true.
+        this.setState({
+            filters: this.state.filters.map((filter) => {
+                    if (filter.category === category) {
+                        filter.selected = true;
+                    }
+                    else {
+                        filter.selected = false;
+                    }
+                }
+            ),
+            movies: movies.filter((movie) => {
+                this.findGenreId(category);
+            })
+        });
+
+
         // We should also filter the movies which are passed to the movie list
+        console.log(category);
+    };
+
+    findGenreId = (category) => {
+        let genreResult = genres.filter((genre) => {
+            if(genre.category === category){
+                return genre.id;
+            }
+        });
+        console.log(genreResult);
+        return genreResult;
     };
 
     openSideBar = () => {
         // We need to toggle the state of the sidebar here to make sure it is in an open state
-        console.log('toggle opensideBar');
         this.setState({
-            sideBarOpened: !this.state.sideBarOpened
+            sideBarOpened: true
         })
-        console.log(this.state.sideBarOpened);
+    };
 
-
+    closeSideBar = () => {
+        this.setState({
+            sideBarOpened: false
+        })
     };
 
     render() {
@@ -47,27 +78,9 @@ export class App extends Component {
                         )}
                     </section>
 
-                    <div>
-                        {/*If the sidebar is open you need to add the css class filter-is-visible to the div below*/}
-                        <div className={`filter ${this.state.sideBarOpened ? "filter-is-visible" : ""}`}>
-                            <form onSubmit={e => e.preventDefault}>
-                                <div className="filter-block">
-                                    <h4>Search</h4>
-                                    <div className="filter-content">
-                                        <input type="search" placeholder="title"/>
-                                    </div>
-                                </div>
-                            </form>
-                            <a className="hand-cursor close-f">Close</a>
-                        </div>
+                    <SideBar sideBarOpened={this.state.sideBarOpened} openSideBar={this.openSideBar}
+                             closeSideBar={this.closeSideBar}/>
 
-                        <a
-                            className="hand-cursor filter-trigger"
-                            onClick={this.openSideBar}
-                        >
-                            Filters
-                        </a>
-                    </div>
 
                 </main>
             </div>
