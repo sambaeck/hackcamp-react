@@ -19,7 +19,7 @@ He wrote some notes for you before leaving with a list of tasks.
 
 First off, you will need to clone the project:
 ```bash
-git clone url
+git clone https://github.com/hackages/hackcamp-react.git
 cd hackcamp.react
 yarn
 yarn start
